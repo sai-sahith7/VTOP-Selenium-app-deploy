@@ -1,1 +1,1 @@
-web: gunicorn app:vtop_selenium_app
+web: gunicorn app:app
