@@ -61,9 +61,9 @@ def get_complete_data(reg_no,vtop_password,sem_code):
 
     #until sign in end
     # time table
+    time.sleep(10)
+    data = {}
     try:
-        time.sleep(3)
-        data = {}
         wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="menu-toggle"]'))).click()  # clicking on menu button
         wait.until(ec.element_to_be_clickable((By.XPATH, '//a[@href="#MenuBody6"]'))).click()  # clicking on academics
     except:
