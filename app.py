@@ -62,11 +62,8 @@ def get_complete_data(reg_no,vtop_password,sem_code):
     #until sign in end
     # time table
     data = {}
-    try:
-        wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="menu-toggle"]'))).click()  # clicking on menu button
-        wait.until(ec.element_to_be_clickable((By.XPATH, '//a[@href="#MenuBody6"]'))).click()  # clicking on academics
-    except:
-        return "element prob"
+    wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="menu-toggle"]'))).click()  # clicking on menu button
+    wait.until(ec.element_to_be_clickable((By.XPATH, '//a[@href="#MenuBody6"]'))).click()  # clicking on academics
     wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="ACD0034"]'))).click()  # clicking on time table
     wait.until(ec.element_to_be_clickable((By.XPATH, '//option[@value="' + sem_code + '"]'))).click()  # selecting Winter Semester
     wait.until(ec.element_to_be_clickable((By.XPATH, '//div[@class="table-responsive"]//table')))
@@ -141,12 +138,7 @@ def main_app():
         reg_no = request.form["reg_no"]
         password = request.form["password"]
         sem_code = request.form["sem_code"]
-        try:
-            res = get_complete_data(reg_no,password,sem_code)
-            if res == "element prob":
-                return res
-        except:
-            return render_template("index.html")    
+        res = get_complete_data(reg_no,password,sem_code)
         return render_template("index.html",res=res,reg_no=reg_no)
     else:
         return render_template("index.html")
