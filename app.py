@@ -36,18 +36,18 @@ def change_link(initial_link,reg_no):
 def get_complete_data(reg_no,vtop_password,sem_code):
 
     # **** until sign in ****
-    ext = webdriver.ChromeOptions()
-    ext.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    ext.add_argument("--headless")
-    ext.add_argument("--no-sandbox")
-    ext.add_argument("--disable-dev-shm-usage")
-    ext.add_extension("./extension_4_9_1_0.crx")
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+#     chrome_options.add_extension("./extension_4_9_1_0.crx")
     try:
         executable_path=os.environ.get("CHROMEDRIVER_PATH")
     except:
         return "path prob"
     try:
-        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),options=ext)
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     except:
         return "driver prob"
     try:
