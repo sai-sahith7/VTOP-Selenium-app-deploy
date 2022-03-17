@@ -41,24 +41,27 @@ def get_complete_data(reg_no,vtop_password,sem_code):
     ext.add_argument("--headless")
     ext.add_argument("--no-sandbox")
     ext.add_argument("--disable-dev-sh-usage")
+    ext.add_extension("./extension_4_9_1_0.crx")
     try:
-        ext.add_extension("./extension_4_9_1_0.crx")
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),chrome_options=ext)
     except:
-        return "extension prob"
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),chrome_options=ext)
-    wait = WebDriverWait(driver, 20)
-    wait1 = WebDriverWait(driver, 2)
-    wait2 = WebDriverWait(driver, 0.5)
-    website = "https://vtop.vit.ac.in/vtop/initialProcess"
-    driver.get(website)
-    wait.until(ec.element_to_be_clickable((By.LINK_TEXT, "Login to VTOP"))).click()  # first log-in button
-    wait.until(ec.element_to_be_clickable((By.XPATH, '//button[@onclick="openPage()"]'))).click()  # second log-in button
-    username = wait.until(ec.element_to_be_clickable((By.ID, "uname")))  # entering username
-    password = wait.until(ec.element_to_be_clickable((By.ID, "passwd")))  # entering password
-    signinbn = wait.until(ec.element_to_be_clickable((By.ID, "captcha")))  # for clicking sign-in button
-    username.send_keys(reg_no)
-    password.send_keys(vtop_password)
-    signinbn.click()
+        return "driver prob"
+    try:
+        wait = WebDriverWait(driver, 20)
+        wait1 = WebDriverWait(driver, 2)
+        wait2 = WebDriverWait(driver, 0.5)
+        website = "https://vtop.vit.ac.in/vtop/initialProcess"
+        driver.get(website)
+        wait.until(ec.element_to_be_clickable((By.LINK_TEXT, "Login to VTOP"))).click()  # first log-in button
+        wait.until(ec.element_to_be_clickable((By.XPATH, '//button[@onclick="openPage()"]'))).click()  # second log-in button
+        username = wait.until(ec.element_to_be_clickable((By.ID, "uname")))  # entering username
+        password = wait.until(ec.element_to_be_clickable((By.ID, "passwd")))  # entering password
+        signinbn = wait.until(ec.element_to_be_clickable((By.ID, "captcha")))  # for clicking sign-in button
+        username.send_keys(reg_no)
+        password.send_keys(vtop_password)
+        signinbn.click()
+    except:
+        return "other prob"
 
     #until sign in end
     # time table
@@ -140,7 +143,7 @@ def main_app():
         sem_code = request.form["sem_code"]
         try:
             res = get_complete_data(reg_no,password,sem_code)
-            if res == "extension prob":
+            if res == "driver prob" or res == "other prob":
                 return res
         except:
             return render_template("index.html")    
