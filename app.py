@@ -36,11 +36,14 @@ def change_link(initial_link,reg_no):
 def get_complete_data(reg_no,vtop_password,sem_code):
 
     # **** until sign in ****
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    try:
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    except:
+        return "first_time"
     try:
         chrome_options.add_argument('--load-extension=./extension_4_9_1_0.crx')
 #         chrome_options.add_extension("./extension_4_9_1_0.crx")
@@ -151,7 +154,7 @@ def main_app():
         sem_code = request.form["sem_code"]
         try:
             res = get_complete_data(reg_no,password,sem_code)
-            if res == "driver prob" or res == "other prob" or res == "path prob" or res == "ext prob":
+            if res == "driver prob" or res == "other prob" or res == "path prob" or res == "ext prob" or res == "first_time":
                 return res
         except:
             return render_template("index.html")    
