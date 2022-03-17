@@ -48,8 +48,8 @@ def get_complete_data(reg_no,vtop_password,sem_code):
         return "path prob"
     try:
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    except:
-        return "driver prob"
+    except Exception as e:
+        return e
     try:
         wait = WebDriverWait(driver, 20)
         wait1 = WebDriverWait(driver, 2)
@@ -147,8 +147,8 @@ def main_app():
         sem_code = request.form["sem_code"]
         try:
             res = get_complete_data(reg_no,password,sem_code)
-            if res == "driver prob" or res == "other prob" or res == "path prob":
-                return res
+#             if res == "driver prob" or res == "other prob" or res == "path prob":
+            return res
         except:
             return render_template("index.html")    
         return render_template("index.html",res=res,reg_no=reg_no)
