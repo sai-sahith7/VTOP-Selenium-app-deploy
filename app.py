@@ -58,6 +58,9 @@ def get_complete_data(reg_no,vtop_password,sem_code):
     username.send_keys(reg_no)
     password.send_keys(vtop_password)
     signinbn.click()
+    
+    time.sleep(2)
+    print(driver.page_source)
 
     #until sign in end
     # time table
