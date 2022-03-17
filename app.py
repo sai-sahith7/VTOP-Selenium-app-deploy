@@ -8,35 +8,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
-import joblib,cv2,base64,numpy as np
 from flask import Flask,render_template,request,redirect,url_for
 
 app = Flask(__name__)
-
-model = joblib.load("captcha_model.pk1")   #model for captcha
-
-
-def b64_to_image(b64):
-    b64_data = b64.split(',')[1]
-    image = np.frombuffer(base64.b64decode(b64_data), np.uint8)
-    image = cv2.imdecode(image, cv2.IMREAD_GRAYSCALE)
-    return image
-
-def get_captcha(base64_url):
-    result = ""
-    test_image = b64_to_image(base64_url)
-    threshold, test_image = cv2.threshold(test_image,0.001,10**9,cv2.THRESH_BINARY)
-    iterator = [0,30,60,90,120,150]
-    for i in iterator:
-        temp_img = test_image[10:,i:i+25]
-        temp_img = temp_img.reshape(1,(temp_img.shape[0]*temp_img.shape[1]))
-        prediction = model.predict(temp_img)[0]
-        if prediction >= 10:
-            result += chr(prediction)
-        else:
-            result += str(prediction)
-    return result
-
 
 #//div[@class="rc-imageselect-payload"]   # for selecting images to check if human
 
@@ -67,6 +41,7 @@ def get_complete_data(reg_no,vtop_password,sem_code):
     ext.add_argument("--headless")
     ext.add_argument("--no-sandbox")
     ext.add_argument("--disable-dev-sh-usage")
+    ext.add_extension("extension_4_9_1_0.crx")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),chrome_options=ext)
     wait = WebDriverWait(driver, 20)
     wait1 = WebDriverWait(driver, 2)
@@ -78,12 +53,6 @@ def get_complete_data(reg_no,vtop_password,sem_code):
     username = wait.until(ec.element_to_be_clickable((By.ID, "uname")))  # entering username
     password = wait.until(ec.element_to_be_clickable((By.ID, "passwd")))  # entering password
     signinbn = wait.until(ec.element_to_be_clickable((By.ID, "captcha")))  # for clicking sign-in button
-    try:
-        decoded_captcha = get_captcha(driver.find_element(By.XPATH, '//img[@alt="vtopCaptcha"]').get_attribute("src"))
-        captcha = wait.until(ec.element_to_be_clickable((By.ID, "captchaCheck")))
-        captcha.send_keys(decoded_captcha)
-    except:
-        pass
     username.send_keys(reg_no)
     password.send_keys(vtop_password)
     signinbn.click()
@@ -176,8 +145,10 @@ def download():
     if request.method == "POST":
         reg_no = request.form["reg_no"].upper()
         initial_link = request.form["initial_link"]
-        changed_link = change_link(initial_link,reg_no)
-        print(changed_link)
+        if "https://" not in initial_link:
+            changed_link = change_link(initial_link,reg_no)
+        else:
+            changed_link = initial_link
         return redirect(changed_link)
     else:
         return render_template("index.html")
