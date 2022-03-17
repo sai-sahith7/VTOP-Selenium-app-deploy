@@ -40,7 +40,7 @@ def get_complete_data(reg_no,vtop_password,sem_code):
     ext.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     ext.add_argument("--headless")
     ext.add_argument("--no-sandbox")
-    ext.add_argument("--disable-dev-sh-usage")
+    ext.add_argument("--disable-dev-shm-usage")
     ext.add_extension("./extension_4_9_1_0.crx")
     try:
         executable_path=os.environ.get("CHROMEDRIVER_PATH")
