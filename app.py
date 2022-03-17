@@ -43,6 +43,10 @@ def get_complete_data(reg_no,vtop_password,sem_code):
     ext.add_argument("--disable-dev-sh-usage")
     ext.add_extension("./extension_4_9_1_0.crx")
     try:
+        executable_path=os.environ.get("CHROMEDRIVER_PATH")
+    except:
+        return "path prob"
+    try:
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),options=ext)
     except:
         return "driver prob"
@@ -143,7 +147,7 @@ def main_app():
         sem_code = request.form["sem_code"]
         try:
             res = get_complete_data(reg_no,password,sem_code)
-            if res == "driver prob" or res == "other prob":
+            if res == "driver prob" or res == "other prob" or res == "path prob":
                 return res
         except:
             return render_template("index.html")    
