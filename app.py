@@ -43,7 +43,7 @@ def get_complete_data(reg_no,vtop_password,sem_code):
     ext.add_argument("--disable-dev-sh-usage")
     ext.add_extension("./extension_4_9_1_0.crx")
     try:
-        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),chrome_options=ext)
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),options=ext)
     except:
         return "driver prob"
     try:
