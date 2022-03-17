@@ -61,7 +61,6 @@ def get_complete_data(reg_no,vtop_password,sem_code):
 
     #until sign in end
     # time table
-    time.sleep(10)
     data = {}
     try:
         wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="menu-toggle"]'))).click()  # clicking on menu button
