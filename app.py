@@ -76,14 +76,17 @@ def get_complete_data(reg_no,vtop_password,sem_code):
 
     #until sign in end
     # time table
-    data = {}
-    wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="menu-toggle"]'))).click()  # clicking on menu button
-    wait.until(ec.element_to_be_clickable((By.XPATH, '//a[@href="#MenuBody6"]'))).click()  # clicking on academics
-    wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="ACD0034"]'))).click()  # clicking on time table
-    wait.until(ec.element_to_be_clickable((By.XPATH, '//option[@value="' + sem_code + '"]'))).click()  # selecting Winter Semester
-    wait.until(ec.element_to_be_clickable((By.XPATH, '//div[@class="table-responsive"]//table')))
-    class_numbers = driver.find_elements(By.XPATH, '//div[@class="table-responsive"]//table//tr//td[7]//p')
-    course_names = driver.find_elements(By.XPATH, '//div[@class="table-responsive"]//table//tr//td[3]//p[1]')
+    try:
+        data = {}
+        wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="menu-toggle"]'))).click()  # clicking on menu button
+        wait.until(ec.element_to_be_clickable((By.XPATH, '//a[@href="#MenuBody6"]'))).click()  # clicking on academics
+        wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="ACD0034"]'))).click()  # clicking on time table
+        wait.until(ec.element_to_be_clickable((By.XPATH, '//option[@value="' + sem_code + '"]'))).click()  # selecting Winter Semester
+        wait.until(ec.element_to_be_clickable((By.XPATH, '//div[@class="table-responsive"]//table')))
+        class_numbers = driver.find_elements(By.XPATH, '//div[@class="table-responsive"]//table//tr//td[7]//p')
+        course_names = driver.find_elements(By.XPATH, '//div[@class="table-responsive"]//table//tr//td[3]//p[1]')
+    except:
+        return "element prob"
     for i in range(len(class_numbers)):
         data[course_names[i].text] = class_numbers[i].text
     wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="ACD0045"]'))).click()  # clicking on course page
@@ -154,7 +157,7 @@ def main_app():
         sem_code = request.form["sem_code"]
         try:
             res = get_complete_data(reg_no,password,sem_code)
-            if res == "driver prob" or res == "other prob" or res == "path prob" or res == "ext prob" or res == "first_time":
+            if res == "driver prob" or res == "other prob" or res == "path prob" or res == "ext prob" or res == "first_time" or res == "element prob":
                 return res
         except:
             return render_template("index.html")    
