@@ -44,7 +44,7 @@ def get_complete_data(reg_no,vtop_password,sem_code):
         ext.add_argument("--disable-dev-sh-usage")
     except:
         return "selenium prob"
-    ext.add_extension("extension_4_9_1_0.crx")
+    ext.add_extension("./extension_4_9_1_0.crx")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),chrome_options=ext)
     wait = WebDriverWait(driver, 20)
     wait1 = WebDriverWait(driver, 2)
