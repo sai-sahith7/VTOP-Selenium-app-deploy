@@ -37,9 +37,9 @@ def get_complete_data(reg_no,vtop_password,sem_code):
 
     # **** until sign in ****
     chrome_options = webdriver.ChromeOptions()
-#     chrome_options.add_argument("--headless")
-#     chrome_options.add_argument("--disable-dev-shm-usage")
-#     chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_extension("./extension_4_9_1_0.crx")
     try:
