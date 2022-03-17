@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
-import joblib,base64,numpy as np
+import joblib,cv2,base64,numpy as np
 from flask import Flask,render_template,request,redirect,url_for
 
 app = Flask(__name__)
